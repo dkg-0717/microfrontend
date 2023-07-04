@@ -6,7 +6,11 @@ const getRickCharacters = async () => {
   try {
     const request = await fetch(url)
     const { results } = await request.json()
-    return results
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(results)
+      }, 1000)
+    })
   } catch (err) {
     return err
   }
