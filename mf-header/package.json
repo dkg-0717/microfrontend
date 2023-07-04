@@ -1,7 +1,7 @@
 {
   "name": "@team-header/mf-header",
   "scripts": {
-    "start": "webpack serve",
+    "start": "webpack serve --port=8082",
     "start:standalone": "webpack serve --env standalone",
     "build": "concurrently npm:build:*",
     "build:webpack": "webpack --mode=production",
@@ -43,8 +43,12 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "i18next": "^23.2.6",
+    "i18next-browser-languagedetector": "^7.1.0",
+    "i18next-xhr-backend": "^3.2.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-i18next": "^13.0.1",
     "single-spa-react": "^4.3.1",
     "styled-components": "^6.0.2"
   }

@@ -1,9 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import CharacterCard from './CharacterCard'
+import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { getHarryCharacters } from '../services/harry'
 
 const Harry = () => {
+
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    document.addEventListener('translate', function (e) {
+      const { detail } = e
+      i18next.changeLanguage(detail.lang)
+    })
+  }, [])
 
   const Wrapper = styled.section`
   gap: 20px;
@@ -44,7 +55,7 @@ const Harry = () => {
 
   return (
     <Wrapper>
-      <Title>Personajes de Harry Potter</Title>
+      <Title>{t('harry-title')}</Title>
       {characters.length > 0 && <Container>
         {characters.map(character => {
           const { id, name, image } = character
@@ -53,7 +64,7 @@ const Harry = () => {
           )
         })}
       </Container>}
-      <Button onClick={() => getCharacters()}>Cargar personajes</Button>
+      {characters.length == 0 && <Button onClick={() => getCharacters()}>{t('txt-button')}</Button>}
     </Wrapper>
   )
 }

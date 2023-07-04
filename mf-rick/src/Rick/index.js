@@ -1,9 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import i18next from 'i18next';
 import CharacterCard from './CharacterCard'
+import { useTranslation } from 'react-i18next';
 import { getRickCharacters } from '../services/rick'
 
 const Rick = () => {
+
+  const { t } = useTranslation()
+
+  useEffect(() => {
+    document.addEventListener('translate', function (e) {
+      const { detail } = e
+      i18next.changeLanguage(detail.lang)
+    })
+  }, [])
 
   const Wrapper = styled.section`
   gap: 20px;
@@ -21,18 +32,6 @@ const Rick = () => {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   `;
 
-  const Character = styled.section`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  `;
-
-  const Img = styled.img`
-  max-width: 100%;
-  max-height: 200px;
-  object-fit: contain;
-  `
-
   const Button = styled.button`
     border: 0;
     padding: 10px 20px;
@@ -48,10 +47,6 @@ const Rick = () => {
 
   `
 
-  const Name = styled.p`
-    text-align: center;
-  `
-
   const [characters, setCharacters] = useState([])
 
   const getCharacters = async () => {
@@ -61,7 +56,7 @@ const Rick = () => {
 
   return (
     <Wrapper>
-      <Title>Personajes de Rick and Morty</Title>
+      <Title>{t('rick-title')}</Title>
       {characters.length > 0 && <Container>
         {characters.map(character => {
           const { id, name, image } = character
@@ -70,7 +65,7 @@ const Rick = () => {
           )
         })}
       </Container>}
-      <Button onClick={() => getCharacters()}>Cargar personajes</Button>
+      {characters.length == 0 && <Button onClick={() => getCharacters()}>{t('txt-button')}</Button>}
     </Wrapper>
   )
 }
